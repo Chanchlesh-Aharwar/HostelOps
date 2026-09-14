@@ -52,12 +52,8 @@ def create_orchestrator(session_factory):
     notification_tools = NotificationTools(session_factory)
     finance_tools = FinanceTools(session_factory)
 
-    if settings.bedrock_api_key:
-        os.environ["AWS_BEARER_TOKEN_BEDROCK"] = settings.bedrock_api_key
-
     model = BedrockModel(
         model_id=settings.bedrock_model_id,
-        api_key=settings.bedrock_api_key or None,
         region_name=settings.aws_region,
     )
 
