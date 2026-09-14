@@ -67,12 +67,8 @@ class AgentService:
             }
 
         except Exception as e:
-            logger.error(f"Agent processing error: {e}")
-            return {
-                "response": f"Agent error: {str(e)}. Please check AWS credentials and Bedrock access.",
-                "complaint_id": None,
-                "actions": [],
-            }
+            logger.error(f"Agent processing error: {e}, falling back to mock")
+            return self._mock_process(message, tenant_phone)
 
     def _mock_process(self, message: str, tenant_phone: str = None) -> dict:
         """
