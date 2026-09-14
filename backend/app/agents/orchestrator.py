@@ -1,6 +1,6 @@
 import os
 from strands import Agent
-from strands.models import BedrockModel
+from strands.models.gemini import GeminiModel
 
 from ..config import get_settings
 from ..tools.tenant_tools import TenantTools
@@ -52,20 +52,12 @@ def create_orchestrator(session_factory):
     notification_tools = NotificationTools(session_factory)
     finance_tools = FinanceTools(session_factory)
 
-    model_id = settings.bedrock_model_id
-    api_key = settings.bedrock_api_key or None
+    gemini_api_key = settings.gemini_api_key or None
 
-    if api_key:
-        os.environ["AWS_BEARER_TOKEN_BEDROCK"] = api_key
-
-    model_kwargs = {
-        "model_id": model_id,
-        "region_name": settings.aws_region,
-    }
-    if api_key:
-        model_kwargs["api_key"] = api_key
-
-    model = BedrockModel(**model_kwargs)
+    model = GeminiModel(
+        model_id="gemini-2.0-flash",
+        client_args={"api_key": gemini_api_key} if gemini_api_key else {},
+    )
 
     agent = Agent(
         name="orchestrator",

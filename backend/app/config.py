@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     aws_region: str = "us-east-1"
     bedrock_model_id: str = "anthropic.claude-sonnet-4-20250514-v1:0"
     bedrock_api_key: str = ""
+    gemini_api_key: str = ""
 
     whatsapp_phone_number_id: str = ""
     whatsapp_access_token: str = ""

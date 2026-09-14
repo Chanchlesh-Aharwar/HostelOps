@@ -10,4 +10,5 @@ aiofiles
 strands-agents
 strands-agents-tools
 boto3
+google-genai
 pillow
