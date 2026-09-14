@@ -1,16 +1,13 @@
-version: "3.8"
-
 services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: hostelops_db
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-HostelOps@2026}
+      MYSQL_DATABASE: ${DB_NAME:-hostelops_db}
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -25,22 +22,29 @@ services:
       - DB_HOST=db
       - DB_PORT=3306
       - DB_USER=root
-      - DB_PASSWORD=root
-      - DB_NAME=hostelops_db
+      - DB_PASSWORD=${DB_PASSWORD:-HostelOps@2026}
+      - DB_NAME=${DB_NAME:-hostelops_db}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION:-us-east-1}
-      - DEBUG=true
+      - BEDROCK_MODEL_ID=${BEDROCK_MODEL_ID}
+      - BEDROCK_API_KEY=${BEDROCK_API_KEY}
+      - WHATSAPP_PHONE_NUMBER_ID=${WHATSAPP_PHONE_NUMBER_ID:-}
+      - WHATSAPP_ACCESS_TOKEN=${WHATSAPP_ACCESS_TOKEN:-}
+      - WHATSAPP_VERIFY_TOKEN=${WHATSAPP_VERIFY_TOKEN:-hostelops_verify}
+      - WHATSAPP_API_VERSION=${WHATSAPP_API_VERSION:-v21.0}
+      - DEBUG=false
     depends_on:
       db:
         condition: service_healthy
     volumes:
       - ./uploads:/app/uploads
+      - ./database:/app/database
 
   frontend:
     build: ./frontend
     ports:
-      - "5173:80"
+      - "80:80"
     depends_on:
       - backend
 

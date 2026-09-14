@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # HostelOps
 
 An AI-powered operations manager for PG and hostel owners.
@@ -32,3 +33,6 @@ Copy `.env.example` to `.env` and fill in your credentials.
 
 The MySQL database `hostelops_db` should already exist with all 13 tables.
 Run `database/seed_data.py` to populate sample data.
+=======
+# HostelOps
+>>>>>>> 41b4aa7c884492e59e143eab19572cca500af589
