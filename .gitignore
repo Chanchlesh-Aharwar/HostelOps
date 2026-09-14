@@ -1,0 +1,17 @@
+.env
+.env.local
+.env.production
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+node_modules/
+uploads/*
+!uploads/.gitkeep
+dist/
+build/
+*.egg-info/
+.venv/
+venv/
+.vscode/
+.idea/
