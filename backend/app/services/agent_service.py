@@ -42,9 +42,9 @@ class AgentService:
         4. Return a response
         """
         try:
-            # Check if AI credentials are configured
-            if not settings.gemini_api_key:
-                logger.warning("Gemini API key not configured. Using mock response.")
+            # Check if AWS credentials are configured
+            if not settings.aws_access_key_id or not settings.aws_secret_access_key:
+                logger.warning("AWS credentials not configured. Using mock response.")
                 return self._mock_process(message, tenant_phone)
 
             orchestrator = _get_orchestrator()
