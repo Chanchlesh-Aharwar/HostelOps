@@ -52,10 +52,20 @@ def create_orchestrator(session_factory):
     notification_tools = NotificationTools(session_factory)
     finance_tools = FinanceTools(session_factory)
 
-    model = BedrockModel(
-        model_id=settings.bedrock_model_id,
-        region_name=settings.aws_region,
-    )
+    model_id = settings.bedrock_model_id
+    api_key = settings.bedrock_api_key or None
+
+    if api_key:
+        os.environ["AWS_BEARER_TOKEN_BEDROCK"] = api_key
+
+    model_kwargs = {
+        "model_id": model_id,
+        "region_name": settings.aws_region,
+    }
+    if api_key:
+        model_kwargs["api_key"] = api_key
+
+    model = BedrockModel(**model_kwargs)
 
     agent = Agent(
         name="orchestrator",
