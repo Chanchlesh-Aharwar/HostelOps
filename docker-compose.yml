@@ -45,8 +45,12 @@ services:
     build: ./frontend
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - backend
+    volumes:
+      - /etc/letsencrypt/live/hostelops.duckdns.org/fullchain.pem:/etc/letsencrypt/live/hostelops.duckdns.org/fullchain.pem:ro
+      - /etc/letsencrypt/live/hostelops.duckdns.org/privkey.pem:/etc/letsencrypt/live/hostelops.duckdns.org/privkey.pem:ro
 
 volumes:
   mysql_data:
